@@ -32,14 +32,11 @@ export default class Feed extends Component {
 
         const response = await api.get('posts');
 
-        console.log(response.data);
-
-
         this.setState({ feed: response.data });
     }
 
     registerToSocket = () => {
-        const socket = io('http://192.168.30.156:3333');
+        const socket = io('http://192.168.56.1:3333');
 
         socket.on('post', newPost => {
             this.setState({ feed: [newPost, ... this.state.feed] });
@@ -70,11 +67,11 @@ export default class Feed extends Component {
                                 <Image source={more} />
                             </View>
                             <Image style={styles.feedImage}
-                                source={{ uri: `http://192.168.30.156:3333/files/${item.image}` }}
+                                source={{ uri: `http://192.168.56.1:3333/files/${item.image}` }}
                             />
                             <View style={styles.feedItemFooter} >
                                 <View style={styles.actions}>
-                                    <TouchableOpacity style={styles.action} onPress={() => { }}>
+                                    <TouchableOpacity style={styles.action} onPress={() => { this.handleLike(item._id) }}>
                                         <Image source={like} />
                                     </TouchableOpacity>
                                     <TouchableOpacity style={styles.action} onPress={() => { }}>
